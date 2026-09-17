@@ -119,6 +119,12 @@ process.stdin.on('data',data=>{
     if(data[0]==0x72){
         onRepeat=!onRepeat
     }
+    if(data[0]==0x2d){
+        processPlay.stdin.write('voldown 10\n');
+    }
+    if(data[0]==0x3d){
+        processPlay.stdin.write('volup 10\n');
+    }
 }
 )
 function PlaySong(songPath){
