@@ -11,6 +11,7 @@ let hasStarted=false
 let isPlaying=false
 let duration=0
 let elapsedDuration=0
+let onRepeat=false
 
 function getDuration(songPath){
     finalDir=join(songPath,output[i])
@@ -115,6 +116,9 @@ process.stdin.on('data',data=>{
             elapsedDuration=0
         }
     }
+    if(data[0]==0x72){
+        onRepeat=!onRepeat
+    }
 }
 )
 function PlaySong(songPath){
@@ -132,11 +136,16 @@ setInterval(() => {
     if (isPlaying === true && processPlay !== undefined) {
         elapsedDuration += 1
         if (elapsedDuration >= duration && duration > 0) { 
-            if (i < output.length - 1) {
-                i += 1
+            if(onRepeat){
                 PlaySong(songsDir)
-            } else {
-                isPlaying = false 
+            }
+            else{
+                if (i < output.length - 1) {
+                    i += 1
+                    PlaySong(songsDir)
+                } else {
+                    isPlaying = false 
+                }
             }
         }
     }
